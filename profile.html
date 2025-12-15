@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sai Pavan Velidandla | Systems Architect & Inventor</title>
+  <meta name="description" content="Portfolio of Sai Pavan Velidandla - Architect of Agentic Systems, ABHA Language, and AI Research." />
+  
+  <!-- Fonts: Space Grotesk for Tech headers, Inter for readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="shortcut icon" href="pavan.png" type="image/png">
+  <style>
+    :root {
+      /* Palette: Magma / Earth / Circuit */
+      --bg-core: #050505;
+      --bg-panel: #0a0a0a;
+      --bg-card: #111111;
+      
+      --accent-primary: #22c55e;   /* Matrix Green */
+      --accent-warn: #f59e0b;      /* Solar Amber */
+      --accent-danger: #ef4444;    /* Reactor Red */
+      --accent-glow: rgba(34, 197, 94, 0.4);
+
+      --text-main: #e4e4e7;
+      --text-muted: #a1a1aa;
+      --border: #27272a;
+      
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-core);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* --- Background Canvas Animation --- */
+    #neural-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* --- Layout Utilities --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-spacer { padding: 6rem 0; }
+    
+    a { text-decoration: none; color: inherit; transition: color 0.2s; }
+    ul { list-style: none; }
+
+    /* --- Typography & Gradients --- */
+    h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.1; }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, var(--accent-muted) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-title {
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-warn));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    /* --- Header / Nav --- */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(5,5,5,0.85);
+    }
+    .logo { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.05em; font-family: var(--font-head); }
+    .logo span { color: var(--accent-primary); }
+    
+    .nav-icons { display: flex; gap: 1rem; }
+    .nav-icons a { padding: 0.25rem; } /* Touch target boost */
+
+    /* --- Hero Section --- */
+    .hero {
+      min-height: 85vh; /* slightly adjusted for mobile viewports */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem); /* Lowered min size for small phones */
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .hero-content .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 500px;
+      line-height: 1.6;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap; /* Essential for mobile */
+    }
+    
+    .stat-item {
+      border-left: 2px solid var(--accent-warn);
+      padding-left: 1rem;
+      min-width: 100px; /* Ensures stats don't get too crushed */
+    }
+    .stat-val { font-size: 1.5rem; font-weight: 700; font-family: var(--font-head); }
+    .stat-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* --- Hero Visual (The "Core") --- */
+    .hero-visual {
+      position: relative;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .core-circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+      animation: spin 20s linear infinite;
+    }
+    .c1 { width: 300px; height: 300px; border-color: rgba(34, 197, 94, 0.2); border-width: 1px; }
+    .c2 { width: 220px; height: 220px; border-top-color: var(--accent-warn); animation-direction: reverse; animation-duration: 15s; }
+    .c3 { width: 140px; height: 140px; border-left-color: var(--accent-danger); animation-duration: 10s; }
+
+    .my-photo {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: #222;
+      z-index: 2;
+      position: relative;
+      border: 2px solid var(--accent-primary);
+      overflow: hidden;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      box-shadow: 0 0 30px rgba(34, 197, 94, 0.1);
+    }
+    .my-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    /* --- Search & Filter --- */
+    .filter-bar {
+      margin-bottom: 3rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background: var(--bg-panel);
+      padding: 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      align-items: center;
+    }
+
+    .search-input {
+      background: transparent;
+      border: none;
+      color: white;
+      font-family: var(--font-head);
+      font-size: 1rem;
+      padding: 0.5rem;
+      flex-grow: 1;
+      min-width: 200px; /* Prevents input from shrinking too much */
+      outline: none;
+    }
+    .search-input::placeholder { color: #555; }
+    
+    .filter-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-tag {
+      padding: 0.5rem 0.9rem; /* Larger touch target */
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.03);
+      white-space: nowrap;
+    }
+    .filter-tag:hover, .filter-tag.active {
+      background: var(--accent-primary);
+      color: black;
+      border-color: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    /* --- Cards Grid --- */
+    .masonry-grid {
+      display: grid;
+      /* Adjusted minmax to 260px for better fit on small phones */
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: var(--card-color, var(--accent-primary));
+      opacity: 0.7;
+    }
+
+    /* Hover effect works on touch press on some devices, or disabled on strictly touch */
+    @media (hover: hover) {
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            border-color: var(--card-color, var(--accent-primary));
+        }
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    
+    .card-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 0.25rem; }
+    .card-type { font-size: 0.75rem; text-transform: uppercase; color: var(--card-color); font-weight: 600; letter-spacing: 0.05em; }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+    
+    .tech-pill {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      color: #888;
+    }
+
+    .card-links {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      gap: 1rem;
+    }
+    .card-link {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.5rem 0; /* Larger touch area */
+    }
+    .card-link:hover { color: var(--card-color); }
+
+    /* --- Featured Section (Bento Box Style) --- */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+    
+    .bento-box {
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .bento-box.large { grid-column: span 8; background: linear-gradient(160deg, #111 0%, #0a150a 100%); border-color: #2a3a2a; }
+    .bento-box.tall { grid-column: span 4; grid-row: span 2; background: linear-gradient(160deg, #111 0%, #1a1005 100%); border-color: #3a2a1a; }
+    .bento-box.med { grid-column: span 8; background: linear-gradient(160deg, #111 0%, #150a0a 100%); border-color: #3a1a1a; }
+
+    /* --- RESPONSIVE ADJUSTMENTS (MOBILE FIRST MINDSET) --- */
+
+    @media (max-width: 900px) {
+      .section-spacer { padding: 4rem 0; } /* Tighter vertical spacing */
+      
+      .hero-grid { 
+        grid-template-columns: 1fr; 
+        text-align: center; 
+        gap: 2rem;
+      }
+      
+      /* Reordered to keep text first on mobile */
+      .hero-visual { 
+        height: 320px; 
+      }
+      
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero-stats { 
+        justify-content: center; 
+        gap: 1.5rem;
+      }
+      .stat-item {
+        text-align: left; /* Keep stat text aligned within the item */
+      }
+      
+      .featured-grid { display: flex; flex-direction: column; }
+      
+      .core-circle { 
+        /* Scale down circles for narrower screens */
+        transform: scale(0.8); 
+      }
+      /* Ensure scaling preserves rotation */
+      .c1 { width: 260px; height: 260px; }
+      .c2 { width: 180px; height: 180px; }
+      .c3 { width: 100px; height: 100px; }
+      
+      .my-photo {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content h1 { font-size: 2.2rem; }
+      .hero-content .subtitle { font-size: 1rem; }
+      
+      .nav-icons { gap: 0.5rem; }
+      .social-icon { width: 18px; height: 18px; }
+      
+      .section-spacer { padding: 3rem 0; }
+      
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .filter-tags {
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    /* --- Animations --- */
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 4rem;
+      background: var(--bg-panel);
+    }
+
+    .social-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .social-icon { width: 20px; height: 20px; stroke: currentColor; transition: stroke 0.2s; }
+    .social-icon:hover { stroke: white; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-core); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
+    
+  </style>
+</head>
+<body>
+
+<canvas id="neural-canvas"></canvas>
+
+<!-- Navigation -->
+<div class="container">
+  <nav>
+    <div class="logo">
+      SV<span>.</span>
+    </div>
+    <div class="nav-icons">
+      <a href="https://github.com/VSPaone/" target="_blank"><i data-lucide="github" class="social-icon"></i></a>
+      <a href="https://www.linkedin.com/in/saipavanvelidandla/" target="_blank"><i data-lucide="linkedin" class="social-icon"></i></a>
+      <a href="tel:+919502444362"><i data-lucide="phone" class="social-icon"></i></a>
+      <a href="mailto:connectwithpavan@gmail.com" aria-label="Email"><i data-lucide="mail" class="social-icon"></i></a>
+    </div>
+  </nav>
+</div>
+
+<!-- Hero Section -->
+<section class="container hero">
+  <div class="hero-grid">
+    <div class="hero-content fade-in-up">
+      <div style="color: var(--accent-primary); font-family: 'Space Grotesk'; font-weight: 600; margin-bottom: 1rem;">
+        // SYSTEM_READY
+      </div>
+      <h1>
+        Architecting <br>
+        <span class="gradient-title">Intelligence.</span>
+      </h1>
+      <p class="subtitle delay-1 fade-in-up">
+        I design intelligence-first systems where AI is not just a chat interface, but a programmable execution layer. 
+        <br><br>
+        Creator of <strong>ABHA</strong>, <strong>AQL</strong>, and <strong>Agentic Architectures</strong>.
+      </p>
+      
+      <div class="hero-stats delay-2 fade-in-up">
+        <div class="stat-item">
+          <div class="stat-val">13+</div>
+          <div class="stat-label">Years R&D</div>
+        </div>
+        <div class="stat-item" style="border-color: var(--accent-primary);">
+          <div class="stat-val">350k+</div>
+          <div class="stat-label">Learners</div>
+        </div>
+        <div class="stat-item" style="border-color: var(--accent-danger);">
+          <div class="stat-val">15+</div>
+          <div class="stat-label">Libraries</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-in-up delay-3">
+      <div class="core-circle c1"></div>
+      <div class="core-circle c2"></div>
+      <div class="core-circle c3"></div>
+      <div class="my-photo">
+        <img src="pavan.png" alt="Sai Pavan Velidandla">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Systems (Bento Grid) -->
+<section class="container section-spacer">
+  <div style="margin-bottom: 2rem;">
+    <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Flagship Systems</h2>
+    <p style="color: var(--text-muted);">The core infrastructure of my research.</p>
+  </div>
+
+  <div class="featured-grid">
+    <!-- ABHA -->
+    <div class="bento-box large" style="--card-color: var(--accent-primary);">
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">ABHA Language</h3>
+          <i data-lucide="cpu" style="color: var(--accent-primary);"></i>
+        </div>
+        <p style="color: #ccc; max-width: 600px; margin-bottom: 2rem;">
+          An intelligence-native programming language designed to express agent behavior, reasoning pipelines, and execution logic. It treats "Intelligence" as a primitive data type.
+        </p>
+      </div>
+      <div class="card-links">
+        <a href="http://abhalang.co.in/" target="_blank" class="card-link">Visit Official Site <i data-lucide="external-link" size="14"></i></a>
+      </div>
+    </div>
+
+    <!-- ORQA -->
+    <div class="bento-box tall" style="--card-color: var(--accent-warn);">
+      <div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">ORQA-KIT</h3>
+        <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 1.5rem;">
+          <strong>Orchestrated Reasoning & Querying for Agents.</strong><br><br>
+          A Python toolkit designed to move beyond simple prompt engineering into structured, testable reasoning chains.
+        </p>
+        <div class="tech-pill" style="display: inline-block; margin-bottom: 1rem; color: var(--accent-warn);">Python Package</div>
+      </div>
+      <div class="card-links">
+        <a href="https://pypi.org/project/orqa-kit/" target="_blank" class="card-link">View PyPI <i data-lucide="package" size="14"></i></a>
+      </div>
+    </div>
+
+    <!-- AQL -->
+    <div class="bento-box med" style="--card-color: var(--accent-danger);">
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">AQL (AI Query Language)</h3>
+          <i data-lucide="database" style="color: var(--accent-danger);"></i>
+        </div>
+        <p style="color: #ccc;">
+          Replaces fragile prompts with structured queries. Define context, constraints, and output formats using a SQL-like syntax for LLMs.
+        </p>
+      </div>
+      <div class="card-links">
+        <a href="http://abhalang.co.in/aql/" target="_blank" class="card-link">Documentation <i data-lucide="file-text" size="14"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Full Portfolio Filter -->
+<section class="container section-spacer">
+  <div style="margin-bottom: 2rem;">
+    <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Ecosystem & Modules</h2>
+    <p style="color: var(--text-muted);">Open source utilities, research papers, and developer tools.</p>
+  </div>
+
+  <div class="filter-bar">
+    <i data-lucide="search" size="18" style="color: #666;"></i>
+    <input type="text" class="search-input" id="projectSearch" placeholder="Search packages (e.g. 'react', 'physics', 'db')...">
+    <div class="filter-tags" id="filterTags">
+      <div class="filter-tag active" data-filter="all">All</div>
+      <div class="filter-tag" data-filter="npm">NPM</div>
+      <div class="filter-tag" data-filter="pypi">PyPI/Python</div>
+      <div class="filter-tag" data-filter="research">Research</div>
+    </div>
+  </div>
+
+  <div class="masonry-grid" id="projectGrid">
+    <!-- Projects injected by JS -->
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="social-links">
+      <a href="https://github.com/VSPaone/" target="_blank"><i data-lucide="github" class="social-icon"></i></a>
+      <a href="https://www.linkedin.com/in/saipavanvelidandla/" target="_blank"><i data-lucide="linkedin" class="social-icon"></i></a>
+      <a href="tel:+919502444362"><i data-lucide="phone" class="social-icon"></i></a>
+      <a href="mailto:connectwithpavan@gmail.com" aria-label="Email"><i data-lucide="mail" class="social-icon"></i></a>
+    </div>
+    <p>© 2025 Sai Pavan Velidandla. Intelligence, Engineered.</p>
+  </div>
+</footer>
+
+<script>
+  // --- Icons ---
+  lucide.createIcons();
+
+  // --- Project Data ---
+  const projects = [
+    {
+      title: "typso",
+      type: "npm",
+      desc: "Lightweight type-safe utilities and abstractions for scalable JavaScript systems. Ensures runtime safety without overhead.",
+      color: "#22c55e",
+      link: "https://www.npmjs.com/package/typso",
+      tags: ["TypeScript", "Utils"]
+    },
+    {
+      title: "physico",
+      type: "npm",
+      desc: "Physics-inspired computation utilities. Blends mathematical rigor with intuitive JS APIs for simulations.",
+      color: "#f59e0b",
+      link: "https://www.npmjs.com/package/physico",
+      tags: ["Physics", "Math"]
+    },
+    {
+      title: "reaxo",
+      type: "npm",
+      desc: "Reactive abstractions for predictable application behavior. A minimal state management approach.",
+      color: "#22c55e",
+      link: "https://www.npmjs.com/package/reaxo",
+      tags: ["State", "Reactive"]
+    },
+    {
+      title: "rehookd",
+      type: "npm",
+      desc: "Composable React hooks library designed for cleaner side-effect management and logic reuse.",
+      color: "#61dafb",
+      link: "https://www.npmjs.com/package/rehookd",
+      tags: ["React", "Hooks"]
+    },
+    {
+      title: "cephalo-db",
+      type: "npm",
+      desc: "A lightweight, developer-friendly database abstraction focused on clarity and in-memory control.",
+      color: "#ef4444",
+      link: "https://www.npmjs.com/package/cephalo-db",
+      tags: ["Database", "Storage"]
+    },
+    {
+      title: "smartcontracts.js",
+      type: "npm",
+      desc: "Programmable contract abstractions for logic-driven systems. Simulate contract logic in pure JS.",
+      color: "#a855f7",
+      link: "https://www.npmjs.com/package/smartcontracts.js",
+      tags: ["Logic", "Contracts"]
+    },
+    {
+      title: "useaiml",
+      type: "npm",
+      desc: "Practical AI/ML utilities for frontend workflows. Integrate simple ML tasks directly into UI logic.",
+      color: "#22c55e",
+      link: "https://www.npmjs.com/package/useaiml",
+      tags: ["AI", "ML"]
+    },
+    {
+      title: "quaco.js",
+      type: "npm",
+      desc: "Quantum-inspired computation helpers. Visualize superposition and gates in the browser.",
+      color: "#06b6d4",
+      link: "https://www.npmjs.com/package/quaco.js",
+      tags: ["Quantum", "Simulation"]
+    },
+    {
+      title: "Perspective Learning",
+      type: "pypi",
+      desc: "A contextual learning paradigm modeling intelligence through dynamic perspectives rather than static weights.",
+      color: "#f59e0b",
+      link: "https://pypi.org/project/perspectivelearning/",
+      tags: ["AI", "Python"]
+    },
+    {
+      title: "numopspy",
+      type: "pypi",
+      desc: "Optimized numerical operations for Python. A lightweight alternative for specific mathematical pipelines.",
+      color: "#f59e0b",
+      link: "https://pypi.org/project/numopspy/",
+      tags: ["Math", "Python"]
+    },
+    {
+      title: "REFORM Architecture",
+      type: "research",
+      desc: "Recurrent-Encoded Probabilistic Forest. A hybrid architecture combining neural encoders with probabilistic forests.",
+      color: "#ef4444",
+      link: "https://zenodo.org/records/15960687",
+      tags: ["Paper", "Deep Learning"]
+    }
+  ];
+
+  const grid = document.getElementById('projectGrid');
+  const searchInput = document.getElementById('projectSearch');
+  const filterTags = document.querySelectorAll('.filter-tag');
+
+  // --- Render Function ---
+  function renderProjects(filterType = 'all', searchText = '') {
+    grid.innerHTML = '';
+    
+    const filtered = projects.filter(p => {
+      const matchesType = filterType === 'all' || p.type === filterType;
+      const matchesSearch = p.title.toLowerCase().includes(searchText.toLowerCase()) || 
+                            p.desc.toLowerCase().includes(searchText.toLowerCase()) ||
+                            p.tags.some(t => t.toLowerCase().includes(searchText.toLowerCase()));
+      return matchesType && matchesSearch;
+    });
+
+    filtered.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.style.setProperty('--card-color', p.color);
+      
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="card-title">${p.title}</div>
+          <div class="card-type">${p.type}</div>
+        </div>
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-meta">
+          ${p.tags.map(t => `<span class="tech-pill">${t}</span>`).join('')}
+        </div>
+        <div class="card-links">
+          <a href="${p.link}" target="_blank" class="card-link">
+            View Project <i data-lucide="external-link" size="14"></i>
+          </a>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+    
+    lucide.createIcons();
+  }
+
+  // --- Event Listeners ---
+  searchInput.addEventListener('input', (e) => {
+    const activeTag = document.querySelector('.filter-tag.active').dataset.filter;
+    renderProjects(activeTag, e.target.value);
+  });
+
+  filterTags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      filterTags.forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+      renderProjects(tag.dataset.filter, searchInput.value);
+    });
+  });
+
+  // Initial Render
+  renderProjects();
+
+  // --- Background Canvas Animation ---
+  const canvas = document.getElementById('neural-canvas');
+  const ctx = canvas.getContext('2d');
+  
+  let width, height;
+  let particles = [];
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = (Math.random() - 0.5) * 0.5;
+      this.size = Math.random() * 2 + 1;
+      // Randomly assign colors from palette
+      const colors = ['#22c55e', '#f59e0b', '#ef4444', '#333'];
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+    }
+    
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      
+      if (this.x < 0 || this.x > width) this.vx *= -1;
+      if (this.y < 0 || this.y > height) this.vy *= -1;
+    }
+    
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    const count = Math.min(window.innerWidth / 10, 100); // Responsive count
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 150) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(100, 100, 100, ${1 - distance / 150})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+      particles[i].update();
+      particles[i].draw();
+    }
+    
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+  resize();
+  initParticles();
+  animate();
+
+</script>
+</body>
+</html>
