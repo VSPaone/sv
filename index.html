@@ -66,7 +66,7 @@
       z-index: 1;
     }
 
-    .section-spacer { padding: 6rem 0; }
+    .section-spacer { padding: 5rem 0; }
     
     a { text-decoration: none; color: inherit; transition: color 0.2s; }
     ul { list-style: none; }
@@ -85,6 +85,11 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       display: inline-block;
+    }
+
+    .highlight-text {
+        color: var(--accent-primary);
+        font-weight: 600;
     }
 
     /* --- Header / Nav --- */
@@ -135,6 +140,18 @@
       margin-bottom: 2rem;
       max-width: 500px;
       line-height: 1.6;
+    }
+
+    .role-ticker {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+        font-family: var(--font-head);
+        font-size: 0.9rem;
+        color: var(--accent-warn);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
     .hero-stats {
@@ -188,6 +205,19 @@
     .my-photo img { width: 100%; height: 100%; object-fit: cover; }
 
     @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    /* --- Highlights Section --- */
+    .highlights-banner {
+        background: linear-gradient(90deg, rgba(34, 197, 94, 0.1), transparent);
+        border-left: 4px solid var(--accent-primary);
+        padding: 1.5rem;
+        margin-bottom: 4rem;
+        border-radius: 0 12px 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    .highlight-icon { color: var(--accent-primary); min-width: 40px; }
 
     /* --- Search & Filter --- */
     .filter-bar {
@@ -345,6 +375,19 @@
     .bento-box.tall { grid-column: span 4; grid-row: span 2; background: linear-gradient(160deg, #111 0%, #1a1005 100%); border-color: #3a2a1a; }
     .bento-box.med { grid-column: span 8; background: linear-gradient(160deg, #111 0%, #150a0a 100%); border-color: #3a1a1a; }
 
+    /* --- Frameworks Section --- */
+    .frameworks-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    .framework-item {
+        border-top: 1px solid var(--border);
+        padding-top: 1rem;
+    }
+    .framework-item h3 { font-size: 1.2rem; color: var(--accent-warn); margin-bottom: 0.5rem; }
+
     /* --- RESPONSIVE ADJUSTMENTS (MOBILE FIRST MINDSET) --- */
 
     @media (max-width: 900px) {
@@ -366,6 +409,8 @@
         flex-direction: column;
         align-items: center;
       }
+
+      .role-ticker { justify-content: center; }
 
       .hero-stats { 
         justify-content: center; 
@@ -389,6 +434,14 @@
       .my-photo {
         width: 180px;
         height: 180px;
+      }
+      
+      .highlights-banner {
+          flex-direction: column;
+          text-align: center;
+          border-left: none;
+          border-top: 4px solid var(--accent-primary);
+          border-radius: 12px;
       }
     }
 
@@ -428,9 +481,9 @@
 
     footer {
       border-top: 1px solid var(--border);
-      padding: 3rem 0;
+      padding: 4rem 0;
       text-align: center;
-      color: #666;
+      color: #888;
       font-size: 0.9rem;
       margin-top: 4rem;
       background: var(--bg-panel);
@@ -474,6 +527,9 @@
       <div style="color: var(--accent-primary); font-family: 'Space Grotesk'; font-weight: 600; margin-bottom: 1rem;">
         // SYSTEM_READY
       </div>
+      <div class="role-ticker">
+          <span>Entrepreneur</span> &middot; <span>Inventor</span> &middot; <span>Space Visionary</span> &middot; <span>Quantum Enthusiast</span>
+      </div>
       <h1>
         Architecting <br>
         <span class="gradient-title">Intelligence.</span>
@@ -511,11 +567,25 @@
   </div>
 </section>
 
-<!-- Featured Systems (Bento Grid) -->
+<!-- Impact Highlights -->
+<section class="container">
+    <div class="highlights-banner fade-in-up delay-2">
+        <div class="highlight-icon"><i data-lucide="award" size="32"></i></div>
+        <div>
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Recognized Impact</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+                Work appreciated by global technology leaders, including <strong>Ginni Rometty</strong> (former Chairperson of IBM). 
+                Successfully trained professionals across Corporates, Universities, and Government bodies globally.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Flagship Systems (Bento Grid) -->
 <section class="container section-spacer">
   <div style="margin-bottom: 2rem;">
     <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Flagship Systems</h2>
-    <p style="color: var(--text-muted);">The core infrastructure of my research.</p>
+    <p style="color: var(--text-muted);">The core infrastructure of my research and invention.</p>
   </div>
 
   <div class="featured-grid">
@@ -568,6 +638,35 @@
   </div>
 </section>
 
+<!-- Signature Frameworks -->
+<section class="container section-spacer">
+    <div style="margin-bottom: 2rem;">
+      <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Signature Frameworks</h2>
+      <p style="color: var(--text-muted);">Methodologies designed for strategic ideation and connected learning.</p>
+    </div>
+    
+    <div class="frameworks-container">
+        <div class="framework-item">
+            <h3>Derive Thinking</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+                A proprietary methodology for strategic ideation and innovation, helping teams engineer breakthroughs rather than waiting for them.
+            </p>
+        </div>
+        <div class="framework-item">
+            <h3>IQECC Framework</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+                A connected learning framework for multi-domain understanding, bridging the gap between abstract theory and deep system design.
+            </p>
+        </div>
+        <div class="framework-item">
+            <h3>System Design Ed.</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+                Creator of "Build Your Own ChatGPT" and "Build Your Own JS Framework" — enabling learners to build complex systems from scratch.
+            </p>
+        </div>
+    </div>
+</section>
+
 <!-- Full Portfolio Filter -->
 <section class="container section-spacer">
   <div style="margin-bottom: 2rem;">
@@ -593,6 +692,14 @@
 
 <footer>
   <div class="container">
+    <div style="margin-bottom: 3rem;">
+        <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;">Vision</h3>
+        <p style="max-width: 600px; margin: 0 auto; color: var(--text-muted);">
+            On a mission to make advanced tech accessible, explainable, and buildable. 
+            Currently exploring the intersection of <span style="color: var(--accent-primary);">Space-Tech</span>, 
+            <span style="color: var(--accent-primary);">Autonomous Systems</span>, and <span style="color: var(--accent-primary);">Quantum-AI Fusion</span>.
+        </p>
+    </div>
     <div class="social-links">
       <a href="https://github.com/VSPaone/" target="_blank"><i data-lucide="github" class="social-icon"></i></a>
       <a href="https://www.linkedin.com/in/saipavanvelidandla/" target="_blank"><i data-lucide="linkedin" class="social-icon"></i></a>
@@ -609,6 +716,22 @@
 
   // --- Project Data ---
   const projects = [
+    {
+      title: "REFORM Architecture",
+      type: "research",
+      desc: "Recurrent-Encoded Probabilistic Forest (July 2025). A hybrid architecture fusing MLP-LSTM with probabilistic forests. Outperforms models like TabNet on clinical risk prediction and fraud detection while maintaining CPU efficiency.",
+      color: "#ef4444",
+      link: "https://zenodo.org/records/15960687",
+      tags: ["Paper", "Deep Learning", "Hybrid AI"]
+    },
+    {
+      title: "Perspective Learning",
+      type: "pypi",
+      desc: "A new AI paradigm modeling how agents learn from contextual perspectives. Supports context-aware inference and dynamic interpretation based on observed viewpoints.",
+      color: "#f59e0b",
+      link: "https://pypi.org/project/perspectivelearning/",
+      tags: ["AI", "Python", "Paradigm"]
+    },
     {
       title: "typso",
       type: "npm",
@@ -674,28 +797,12 @@
       tags: ["Quantum", "Simulation"]
     },
     {
-      title: "Perspective Learning",
-      type: "pypi",
-      desc: "A contextual learning paradigm modeling intelligence through dynamic perspectives rather than static weights.",
-      color: "#f59e0b",
-      link: "https://pypi.org/project/perspectivelearning/",
-      tags: ["AI", "Python"]
-    },
-    {
       title: "numopspy",
       type: "pypi",
       desc: "Optimized numerical operations for Python. A lightweight alternative for specific mathematical pipelines.",
       color: "#f59e0b",
       link: "https://pypi.org/project/numopspy/",
       tags: ["Math", "Python"]
-    },
-    {
-      title: "REFORM Architecture",
-      type: "research",
-      desc: "Recurrent-Encoded Probabilistic Forest. A hybrid architecture combining neural encoders with probabilistic forests.",
-      color: "#ef4444",
-      link: "https://zenodo.org/records/15960687",
-      tags: ["Paper", "Deep Learning"]
     }
   ];
 
